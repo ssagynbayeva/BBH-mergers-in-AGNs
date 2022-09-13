@@ -9,21 +9,13 @@
 \begin{document}
 % \begin{CJK*}{UTF8}{gbsn}
 % Title
-\title{Global simulation of thermal torques}
+\title{Merger! In AGN disks: 3D global simulations}
 
 % Author list
 \author[0000-0002-6650-3829]{Sabina Sagynbayeva}
 \affiliation{Department of Physics and Astronomy, Stony Brook University, Stony Brook, NY 11794, USA}
-
-\author[0000-0002-2624-3399]{Yan-Fei Jiang(姜燕飞)}
 \affiliation{Center for Computational Astrophysics, Flatiron Institute, 162 Fifth Avenue, New York, NY 10010, USA}
 
-\author{Zhaohuan Zhu(朱照寰)}
-\affiliation{Department of Physics and Astronomy, University of Nevada, Las Vegas, 4505 S.~Maryland Parkway, Las Vegas, NV~89154-4002, USA}
-
-\author[0000-0001-5032-1396]{Philip J. Armitage}
-\affiliation{Center for Computational Astrophysics, Flatiron Institute, 162 Fifth Avenue, New York, NY 10010, USA}
-\affiliation{Department of Physics and Astronomy, Stony Brook University, Stony Brook, NY 11794, USA}
 
 % Abstract with filler text
 \begin{abstract}
@@ -33,7 +25,6 @@
 % Main body with filler text
 \section{Introduction} 
 \label{sec:intro}
-We follow up \citet{hankla20} :)
 
 \section{Methods}
 \label{sec:methods}
@@ -49,20 +40,19 @@ The simulations are performed in spherical coordinates, where $r$, $\phi$, and $
 \end{aligned}
 \end{equation}
 
-In eq. \ref{eq:potential}, $q = M_p/M_*$ is the mass ratio of a protoplanet to a star, $\epsilon$ is the smoothing length of the planet's potential, and $\phi'= \phi-\phi_p$ denotes the azimuthal separation from the planet. $GM=1$, $R_p=1$.
+The location of the BBH's center of mass is (i.e. the semi-major axis of the center of mass) $R_{CM} = 1$, and the semi-major axis of the binary's orbit around the center of mass is $a_{bin} = 0.025 R_{CM}$.
+In eq. \ref{eq:potential}, $q = M_p/M_*$ is the mass ratio of a black hole binary to a supermasive black hole, $\epsilon$ is the smoothing length of the BBH's potential, and $\phi'= \phi-\phi_p$ denotes the azimuthal separation from the BBH. $GM=1$, $R_{CM}=1$.
 
-Keplerian velocity $v_k=\sqrt{\frac{GM}{r}}$ and keplerian frequency $\Omega_k=\sqrt{\frac{GM}{r^3}}$ equal to 1 at the planet's orbit.
+Keplerian velocity $v_k=\sqrt{\frac{GM}{r}}$ and keplerian frequency $\Omega_k=\sqrt{\frac{GM}{r^3}}$ equal to 1 at the BBH's orbit.
 
-$v_p$ - planet's orbital speed. 
+$v_p$ - BBH's orbital speed. 
 $q = 1.5\times 10^{-5} \approx 5 M_{\oplus}$
-
-The planet is introduced to the disk gradually, where its mass increases to the desired value over the first orbit.
 
 The simulation domain spans $0.65R_p$ to $1.35R_p$ in the radial, and the full $2\pi$ in azimuth.
 
-The Hill radius of a planet is:
+The Hill radius of a BBH is:
 \begin{equation}\label{eq:Hill}
-    r_H=R_p\left(\frac{q}{3}\right)^{\frac{1}{3}}
+    r_H=R_{CM}\left(\frac{q}{3}\right)^{\frac{1}{3}}
 \end{equation}
 
 $r_s$ is a small fraction of $r_H$, between 3\% to 10\% of $r_H$.
@@ -92,50 +82,96 @@ The orbital frequency of the disk:
 
 $v_r=v_\theta=0$
 
+
 \subsubsection{Resolution}
-We tried two different sets of resolutions with two different static mesh refinement (SMR) levels around the location of a planet: SMR2 (for SMR level $l=2$) and SMR3 (for SMR level $l=3$).
+We apply static mesh refinement (SMR) level od leverl $l=2$ around the location of the binary.
 
 The resolution for non-refined disk is $[192,80,384]$ cells for $r$-,$\theta$-, and $\phi$-directions, and the sizes of one cell in $r$-,$\theta$-, and $\phi$-directions are $[3.65\times 10^{-3}r_p, 3.75\times 10^{-3}, 1.6\times 10^{-2}]$. 
 
-I increased the resolution in the following regions: $0.9-1.1 r_p$ in $r$-direction, $87^o-93^o$ in $\theta$-direction, and $177^o-183^o$ in $\phi$-direction. The resolution for refined disk with level $l=3$ is $[360 (222+69+69),160 (106+67+67),410 (24+193+193)]$ cells for $r$-,$\theta$-, and $\phi$-directions, and the sizes of one refined cell in $r$-,$\theta$-, and $\phi$-directions are $[9\times 10^{-4}r_p, 9.36\times 10^{-4}, 4\times 10^{-3}]$.
-Look at the Figure \ref{fig:twotorques} to see the comparison of the total torques for different levels of refinement.
-\begin{figure}
-\centering
-	\includegraphics[width=0.6\columnwidth]{comparison_torques.png}
-    \caption{The comparison between the torques.}
-    \label{fig:twotorques}
-\end{figure}
-
-
-
-\subsection{Energy injection and transport}
-I injected the energy of value $L_c=24\times 10^{-11}$ (times the time) into the sphere of radius $0.003 r_p$ (8 cells) around the planet location.
-
-The thermal diffusivity is $\chi=0.00013 H^2\Omega$ with $\lambda_c=0.5r_p$. The Eq. \ref{eq:diffusivity} is taken from the Eq. 17 in \citet{hankla20}. 
-Look at the Figure \ref{fig:den_smr3} to see how the disk looks like with these parameters (including the thermal diffusivity). 
-\begin{equation}\label{eq:diffusivity}
-    \chi=\frac{3\lambda_c^2\gamma\Omega_0}{8\pi^2}
-\end{equation}
-
-\begin{figure}
-\centering
-	\includegraphics[width=0.48\columnwidth]{smr3zoomeddisk.png}
-	\includegraphics[width=0.48\columnwidth]{smr3disk.png}
-    \caption{The density profile of the disk with a perturber with SMR level $l=3$ at the 7th global orbit.}
-    \label{fig:den_smr3}
-\end{figure}
-
-
-
+I increased the resolution in the following regions: $0.9-1.1 R_{cm}$ in $r$-direction, $87^o-93^o$ in $\theta$-direction, and $177^o-183^o$ in $\phi$-direction. 
 
 
 \subsection{Athena++ simulations}
+
+\subsection{Accretion onto the binary}
+We use the sink particle accretion prescription as in \citet{Munoz2019}. They remove a fraction of gas mass in sink cells at every time step and the mass removal fraction is a function of distance in units of sink radius. We use the spline function to calculate the mass removal fraction (the input is distance to each black hole divided by the sink radius).
+\textit{The caveat:} the prescription doesn't work in the global simulation in the same way as in local simulations done in previous works. 
 
 \section{Results}
 \label{sec:results}
 
 \section{Discussion} 
 \label{sec:conclusion}
+
+\section{Other works}
+% \textbf{For tl;dr, look at the tables below.}
+
+% \citet{Baruteau2011}: 2D locally isothermal disk using FARGO.
+
+% \citet{Derdzinski2019}: 2D locally isothermal with DISCO.
+
+% \citet{Munoz2019}: 2D viscous hydrodynamical simulations of circumbinary accretion using the moving-mesh code AREPO; locally isothermal equation of state; allow the gas to be accreted by the individual members of the binary; accretion is thus carried out by a sink particle algorithm; fix $\alpha = h_0 = 0.1$; the fiducial accretion radius is set at $r_{acc} = 0.02a_b$; $e_b=0.0,0.1,0.5$; in all cases, $<\dot{a}_b>$ is positive -- the binary expands while accreting.
+
+% \citet{Tiede2020}: viscous isothermal disk using Mara3 with Lagrangian tracer particles that track the trajectories of individual gas parcels.
+
+% \citet{Duffell2020}: 2D viscous hydrodynamical simulations of circumbinary accretion using the moving-mesh code DISCO; isothermal EOS; accretion is carried out by a sink particle algorithm; the mass ratio is very slowly decreased from $q=1$ to $q=0.01$, at a rate slow enough such that at any given time the binary can be considered as interacting with a steady-state6 disk; smoothing length $\epsilon=0.05a_b$; a range of viscosities from $\alpha=0.03$ to $0.15$, keeping $h/r$ fixed at $0.1$; the torque is always positive for $q_b>0.05$.
+% \citet{YPLi2021}: global 2D isothermal hydrodynamical simulations of an equal mass-ratio BBH using the code LA-COMPASS; geometrically thin and non-self-gravitating disk; assume an $\alpha$-prescription; BH accretion prescription gradually removes mass and momentum from the gas within a distance of $r_{acc} = 0.0016 r_0$ to each BH, which is comparable to the BH softening scale. Material that is accreted by a BH is not added to its mass or momentum. They fix the timescale of this removal to $t^{-1}_{acc,i} = 5\Omega_{bh,i}$; prograde binaries expand rather than contract; a small softening with a high resolution to properly resolve the CSD region is crucial; when the softening is less than 10\% of the binary separation, prograde BBHs expand in time rather than contract. Only when the softening is relatively large the prograde BBHs harden; for retrograde BBHs do we find consistent hardening, regardless of softening, as these BBHs lack the important spiral structure in their CSDs.
+
+% \citet{DOrazio2021}: The setup follows \citet{Duffell2020}; a continuous range of eccentricities spanning $e = 0$ to $e = 0.9$; binaries with initial eccentricities $e_0\leq 0.1$ tend to $e=0$, where the binary semi-major axis expands, all others are attracted to $e \approx 0.4$, where the binary semi-major axis decays; for the chosen disk parameters, binaries with $e_0 \gtrsim 0.1$ evolve toward and then oscillate around $e \approx 0.4$ where they shrink in semi-major axis.
+
+% \citet{Zrake2021}: 2D locally isothermal disk; accretion onto the binary components is modeled by subtracting mass and momentum in a circular region of radius $r_{sink} = 0.02a_b$; utilize an initial condition in which the disk has a finite extent, and is thus free to expand outwards as it relaxes under the viscous stress; the four simulations at low eccentricity $e = 0.025$ through $e = 0.075$ exhibit $\dot{e} < 0$, and these binaries would thus be circularized by their interaction with the disk; somewhere in the range $e=0.075-0.1$, $\dot{e}$ increases abruptly and becomes positive.
+
+% \citet{RLi_2022}: Look at all the tables in the paper. Shearing box calculation; they have high SMRs -- high resolution. For most cases, the $\dot{e}$ is negative. 
+
+% \citet{YPLi_2022}: the setup is just like in \citet{YPLi2021}. They study the effect of the CSD temperature on the evolution of the binary separation. The CSD temperature profile around each BH is approximated with a phenomenological power-law model designed to mimic the feedback from each BH; find that when the entire CSD is a factor of $\sim 3$ hotter than the AGN disk, the positive CSD torques are suppressed enough so that the negative outer torques drive the binary to an eventual merger.
+
+% \citet{Dempsey2022}: 3D shearing box with Athena++. They include vertical stratification and N-body integration (drift-kick-drift scheme). With separations greater than 10\% of their Hill radius contract while accreting at a super-Eddington rate. At smaller separations, however, the BBHs expand. The mass removal scheme -- excess angular momentum is not removed as mass is removed (Appendix A in the paper). 3D sims tend to have more negative torques than their 2D counterparts. The critical $a_b$ is therefore decreased.
+
+% \begin{longtable}
+%     \begin{tabular}{|l|l|l|l|l|l|}
+%     \hline
+%                         & $a_{b}$   & $e_{b}$     & EOS                     & code       & $q_{b}$ \\ \hline
+%     \citet{Munoz2019}   & 1.0       & 0.0,0.1,0.5 & 2D local isothermal     & AREPO      & 1.0     \\ \hline
+%     \citet{Duffell2020} & 1.0                         & 0.0     & 2D local isothermal  & DISCO      & from $q=1$ to $q=0.01$ \\ \hline
+%     \citet{YPLi2021}    & Figure \ref{fig:ypli_table} & 0.0     & 2D global isothermal & LA-COMPASS & 1.0                                          \\ \hline
+%     \citet{DOrazio2021} & 1.0       & 0.0-0.9     & 2D local isothermal     & DISCO      & 1.0     \\ \hline
+%     \citet{Zrake2021}   & 1.0       & 0.0-0.8     & 2D local isothermal     & Mara3      & 1.0     \\ \hline
+%     \citet{RLi_2022}    & -         & 0.0-0.9     & 2D local non-isothermal & ATHENA     & 0.1-1.0 \\ \hline
+%     \citet{YPLi_2022}   & $0.23R_H$ & 0.0         & 2D global isothermal    & LA-COMPASS & 1.0     \\ \hline
+%     \citet{Dempsey2022} & $0.1-0.3R_H$                & 0.0-0.7 & 3D local isothermal  & Athena++   & 1.0                                          \\ \hline
+%     \end{tabular}
+% \end{longtable}
+
+
+% \begin{longrotatetable}
+%     \begin{tabular}{llllllll}
+%     \hline
+%                         & $q$         & $H/R$       & $\alpha$                     & $\gamma$ & $\beta$ & $\epsilon$ & accretion prescription                           \\ \hline
+%     \citet{Munoz2019}   & -           & 0.1         & 0.1                          & -        & -1/2    & $0.02a_b$  & sink particle                                    \\ \hline
+%     \citet{Duffell2020} & -           & 0.1         & from $\alpha=0.03$ to $0.15$ & -        & 0.0     & $0.05a_b$  & sink particle                                    \\ \hline
+%     \citet{YPLi2021}    & 2e-3 & 0.08 & 6.35e-3                                    & - & -1/2 & Figure \ref{fig:ypli_table} & gradually removes mass and momentum from the gas \\ \hline
+%     \citet{DOrazio2021} & -    & 0.1  & 0.1 (different from $\alpha$-prescription) & - & 0.0  & $0.05a_b$                   & sink particle                                    \\ \hline
+%     \citet{Zrake2021}   & -           & 0.1         & 0.1                          & -        & -1/2    & -          & gradually removes mass and momentum from the gas \\ \hline
+%     \citet{RLi_2022}    & 1e-6        & 0.01        & -                            & 1.6      & -       & -          & sink particle                                    \\ \hline
+%     \citet{YPLi_2022}   & 0.002, 5e-5 & 0.01        & 0.004, 0.01                  & -        & -1/2    & $0.15a_b$  & -                                                \\ \hline
+%     \citet{Dempsey2022} & -           & $R_H/H=0.8$ & -                            & -        & -1/2    & $0.08a_b$  & mass removal scheme                              \\ \hline
+%     \end{tabular}
+% \end{longrotatetable}
+
+% \begin{longrotatetable}
+%     \begin{tabular}{ll}
+%     \hline
+%                         & result                           \\ \hline
+%     \citet{Munoz2019}   & expands while accreting          \\ \hline
+%     \citet{Duffell2020} & the torque is always positive for $q_b>0.05$                                  \\ \hline
+%     \citet{YPLi2021}    & expands for small softening lengths of prograde BBHs, hardens for retrograde. \\ \hline
+%     \citet{DOrazio2021} & circular, expanding orbits       \\ \hline
+%     \citet{Zrake2021}   & circularizes for small e         \\ \hline
+%     \citet{RLi_2022}    & mostly hardens                   \\ \hline
+%     \citet{YPLi_2022}   & contracts for high temperatures  \\ \hline
+%     \citet{Dempsey2022} & The critical $a_b$ is decreased. \\ \hline
+%     \end{tabular}
+% \end{longrotatetable}
 
 \bibliography{bib}
 % \end{CJK*}
