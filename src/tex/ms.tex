@@ -28,6 +28,41 @@
 
 \section{Methods}
 \label{sec:methods}
+\subsection{Basic Equations}
+We numerically solve hydrodynamical Euler equations in 3D:
+%
+\begin{linenomath}\begin{align}
+    \label{eq:continuity}
+    \frac{\partial\rho}{\partial t} + \pmb{\nabla}(\rho \pmb{v}) = 0,
+\end{align}\end{linenomath}
+%
+%
+\begin{linenomath}\begin{align}
+    \label{eq:momentum}
+    \frac{\partial\rho\pmb{v}}{\partial t} + \pmb{\nabla}\cdot\left[\rho\pmb{vv}+P\pmb{I}\right] = -\rho\pmb{\nabla}\phi,
+\end{align}\end{linenomath}
+%
+%
+\begin{linenomath}\begin{align}
+    \label{eq:energy}
+    \frac{\partial E}{\partial t} + \pmb{\nabla}\cdot\left[\left(E+P\right)\pmb{v}\right] = \rho\pmb{v}\cdot\pmb{\nabla}\phi,
+\end{align}\end{linenomath}
+%
+where $\rho$, $pmb{v}$, and $P$ are the gas density, velocity, and pressure, respectively. $E$ is the total energy, which is given by
+%
+\begin{linenomath}\begin{align}
+    \label{eq:totalenergy}
+    E = \frac{P}{\gamma-1},
+\end{align}\end{linenomath}
+%
+where $\gamma$ is the adiabatic index. We take $\gamma=1.4$. $\phi$ represents the static gravitational potential of the binary, which is given by
+$\phi=-GM_b/r_b$, where $M_b$ and $r_b$ represent the binary mass and spherical radius, respectively.
+
+We use the grid-based higher-order Godunov hydrodynamic code \texttt{Athena++} \citep{stone2020}, which is the successor of the 
+widely used code \texttt{Athena} \citep{stone2008}, to solve these equations numerically. 
+We adopt the second-order piecewise linear reconstruction method, and the second-order Runge–Kutta scheme to update the equations. 
+We use the Harten-lax-van Leer Contact (HLLC) \citep{toro1994} to approximate Riemann solvers for pure hydrodynamic simulations. 
+The equations are solved in nondimensional form. 
 
 \subsection{Disk model}
 Isentropic disk model from \citet{Fung_2017}.
