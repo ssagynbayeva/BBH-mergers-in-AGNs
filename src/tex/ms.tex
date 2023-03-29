@@ -75,8 +75,10 @@ The simulations are performed in spherical coordinates, where $r$, $\phi$, and $
 \end{aligned}
 \end{equation}
 
-The location of the BBH's center of mass is (i.e. the semi-major axis of the center of mass) $R_{CM} = 1$, and the semi-major axis of the binary's orbit around the center of mass is $a_{bin} = 0.025 R_{CM}$.
-In eq. \ref{eq:potential}, $q = M_p/M_*$ is the mass ratio of a black hole binary to a supermasive black hole, $\epsilon$ is the smoothing length of the BBH's potential, and $\phi'= \phi-\phi_p$ denotes the azimuthal separation from the BBH. $GM=1$, $R_{CM}=1$.
+The location of the BBH's center of mass is (i.e. the semi-major axis of the center of mass) $R_{CM} = 1$, and the semi-major axis of the 
+binary's orbit around the center of mass is $a_{bin} = 0.025 R_{CM}$.
+In eq. \ref{eq:potential}, $q = M_b/M_*$ is the mass ratio of a black hole binary to a supermasive black hole, 
+$\epsilon$ is the smoothing length of the BBH's potential, and $\phi'= \phi-\phi_p$ denotes the azimuthal separation from the BBH. $GM=1$, $R_{CM}=1$.
 
 Keplerian velocity $v_k=\sqrt{\frac{GM}{r}}$ and keplerian frequency $\Omega_k=\sqrt{\frac{GM}{r^3}}$ equal to 1 at the BBH's orbit.
 
@@ -119,17 +121,35 @@ $v_r=v_\theta=0$
 
 
 \subsubsection{Resolution}
-We apply static mesh refinement (SMR) level od leverl $l=2$ around the location of the binary.
+We apply static mesh refinement (SMR) level od leverl $l=4$ around the location of the binary.
 
-The resolution for non-refined disk is $[192,80,384]$ cells for $r$-,$\theta$-, and $\phi$-directions, and the sizes of one cell in $r$-,$\theta$-, and $\phi$-directions are $[3.65\times 10^{-3}r_p, 3.75\times 10^{-3}, 1.6\times 10^{-2}]$. 
+The resolution for non-refined disk is $[192,80,1032]$ cells in $r$-,$\theta$-, and $\phi$-directions. 
 
-I increased the resolution in the following regions: $0.9-1.1 R_{cm}$ in $r$-direction, $87^o-93^o$ in $\theta$-direction, and $177^o-183^o$ in $\phi$-direction. 
-
+We increased the resolution in the following regions: $0.97-1.03 R_{cm}$ in $r$-direction, $89^o-91^o$ in $\theta$-direction, and $178^o-182^o$ in $\phi$-direction. 
+The definitions of the normalization units and the corresponding values are listed in Table \ref{tab:units}.
+%
+\begin{table}[]
+    \label{tab:units}
+    \caption{Normalization Units and Corresponding Values}
+    \begin{tabular}{lll}
+    \hline \hline
+    Quantity            & Unit                  & Value                   \\ \hline
+    Length              & $r_p$                 & $7.41\times 10^{13}$ cm \\
+    Velocity            & $v_{K0}$              &                         \\
+    Time                & $r_p/v_{K0}$          & $3.7 \times 10^8$ s     \\
+    Density             & $\rho_0$              &                         \\
+    Pressure            & $\rho_0 v_{K0}^2$     &                         \\
+    Mass accretion rate & $\rho_0 r_p^2 v_{K0}$ &                         \\ \hline
+    \end{tabular}
+\end{table}
+%
 
 \subsection{Athena++ simulations}
 
 \subsection{Accretion onto the binary}
-We use the sink particle accretion prescription as in \citet{Munoz2019}. They remove a fraction of gas mass in sink cells at every time step and the mass removal fraction is a function of distance in units of sink radius. We use the spline function to calculate the mass removal fraction (the input is distance to each black hole divided by the sink radius).
+We use the sink particle accretion prescription as in \citet{Munoz2019}. They remove a fraction of gas 
+mass in sink cells at every time step and the mass removal fraction is a function of distance in units of sink radius. 
+We use the spline function to calculate the mass removal fraction (the input is distance to each black hole divided by the sink radius).
 \textit{The caveat:} the prescription doesn't work in the global simulation in the same way as in local simulations done in previous works. 
 
 \section{Results}
